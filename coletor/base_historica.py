@@ -192,7 +192,8 @@ def main():
     lic, falhas = listar_mes(a.mes)
     alvo = [r for r in lic if r["id"] not in feitos and r.get("cnpj") and r.get("ano") and r.get("seq")]
     print(f"{a.mes}: {len(lic)} licitações no mês, {len(alvo)} a verificar ({len(feitos)} já feitas) · listagem em {time.time()-t0:.0f}s", file=sys.stderr)
-    arq = {k: open(os.path.join(pasta, k + ".jsonl"), "a", encoding="utf-8") for k in ("indice", "casos", "participantes", "documentos")}
+    # errors="replace": PDFs mal formados às vezes trazem caracteres inválidos; não podem derrubar o mês inteiro
+    arq = {k: open(os.path.join(pasta, k + ".jsonl"), "a", encoding="utf-8", errors="replace") for k in ("indice", "casos", "participantes", "documentos")}
     n = {"verificadas": 0, "com_documentos": 0, "casos": 0, "participacoes": 0, "documentos": 0}
     tipos = {}
     parou = False
