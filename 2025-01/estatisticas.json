@@ -1,0 +1,21 @@
+{
+ "mes": "2025-01",
+ "licitacoes_no_mes": 22734,
+ "completo": false,
+ "tipos": {
+  "retificacao": 740,
+  "ata": 2202,
+  "julgamento": 632,
+  "esclarecimento": 386,
+  "impugnacao": 254,
+  "decisao": 338,
+  "recurso": 331
+ },
+ "verificadas": 22734,
+ "com_documentos": 3604,
+ "casos": 2500,
+ "participacoes": 22272,
+ "documentos": 1502,
+ "minutos": 92.7,
+ "falhas_listagem": 2
+}
