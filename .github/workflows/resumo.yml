@@ -17,6 +17,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Gerar
         run: |
+          python3 -m pip install -q --break-system-packages pypdf || python3 -m pip install -q pypdf
           git clone -q --depth 1 --branch base "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" /tmp/base
           python3 coletor/juntar.py --base /tmp/base --saida /tmp/base/aprendizados.json
           cd /tmp/base
