@@ -1,0 +1,21 @@
+{
+ "mes": "2026-05",
+ "licitacoes_no_mes": 30430,
+ "completo": false,
+ "tipos": {
+  "ata": 1877,
+  "impugnacao": 672,
+  "retificacao": 1199,
+  "esclarecimento": 650,
+  "decisao": 593,
+  "julgamento": 897,
+  "recurso": 571
+ },
+ "verificadas": 30430,
+ "com_documentos": 4619,
+ "casos": 2252,
+ "participacoes": 16151,
+ "documentos": 3424,
+ "minutos": 135.5,
+ "falhas_listagem": 39
+}
