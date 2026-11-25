@@ -1,0 +1,1 @@
+Base histórica do Radar: um diretório por mês; legado = leituras anteriores.
