@@ -1,0 +1,69 @@
+name: Base histórica (inabilitações e impugnações desde a 14.133)
+on:
+  workflow_dispatch:
+    inputs:
+      inicio:
+        description: "Primeiro mês (AAAA-MM)"
+        default: "2022-01"
+      fim:
+        description: "Último mês (AAAA-MM)"
+        default: "2026-10"
+      paralelo:
+        description: "Meses ao mesmo tempo"
+        default: "3"
+concurrency: base
+permissions:
+  contents: write
+jobs:
+  plano:
+    runs-on: ubuntu-latest
+    outputs:
+      meses: ${{ steps.m.outputs.meses }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: m
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, datetime as dt
+          a, b = "${{ github.event.inputs.inicio }}", "${{ github.event.inputs.fim }}"
+          y, m = map(int, a.split("-")); out = []
+          while f"{y:04d}-{m:02d}" <= b:
+              out.append(f"{y:04d}-{m:02d}"); m += 1
+              if m > 12: y, m = y + 1, 1
+          out.reverse()  # mais recentes primeiro: mais documentos e mais úteis
+          print("meses=" + json.dumps(out))
+          PY
+      - name: Criar o ramo base, se não existir
+        run: |
+          if ! git ls-remote --exit-code --heads origin base >/dev/null; then
+            mkdir /tmp/b && cd /tmp/b && git init -q && git config user.name radar-bot && git config user.email radar-bot@users.noreply.github.com
+            git checkout -q -b base && echo "Base histórica do Radar: um diretório por mês." > LEIA-ME.txt && git add . && git commit -qm "início"
+            git push "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" base
+          fi
+  mes:
+    needs: plano
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ fromJSON(github.event.inputs.paralelo) }}
+      matrix:
+        mes: ${{ fromJSON(needs.plano.outputs.meses) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preparar
+        run: |
+          python3 -m pip install -q --break-system-packages pypdf || python3 -m pip install -q pypdf
+          git clone -q --depth 1 --branch base "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" /tmp/base
+          if [ -f "/tmp/base/${{ matrix.mes }}/estatisticas.json" ] && grep -q '"completo": true' "/tmp/base/${{ matrix.mes }}/estatisticas.json"; then echo "PULAR=1" >> $GITHUB_ENV; fi
+      - name: Ler o mês
+        if: env.PULAR != '1'
+        run: python3 coletor/base_historica.py --mes ${{ matrix.mes }} --saida /tmp/base --threads 12 --limite-min 320
+      - name: Salvar no ramo base
+        if: always() && env.PULAR != '1'
+        run: |
+          cd /tmp/base
+          git config user.name radar-bot; git config user.email radar-bot@users.noreply.github.com
+          git add "${{ matrix.mes }}" && git commit -qm "base ${{ matrix.mes }}" || exit 0
+          for i in 1 2 3 4 5 6; do git pull -q --rebase origin base && git push -q origin HEAD:base && exit 0; sleep $((RANDOM % 20 + 5)); done
+          exit 1

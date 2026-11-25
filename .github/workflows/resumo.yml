@@ -1,0 +1,26 @@
+name: Resumo para a plataforma (aprendizados.json)
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Base histórica (inabilitações e impugnações desde a 14.133)"]
+    types: [completed]
+  schedule:
+    - cron: "41 7 * * *"
+concurrency: base-resumo
+permissions:
+  contents: write
+jobs:
+  resumo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Gerar
+        run: |
+          git clone -q --depth 1 --branch base "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" /tmp/base
+          python3 coletor/juntar.py --base /tmp/base --saida /tmp/base/aprendizados.json
+          cd /tmp/base
+          git config user.name radar-bot; git config user.email radar-bot@users.noreply.github.com
+          git add aprendizados.json && git commit -qm "resumo" || exit 0
+          for i in 1 2 3 4 5; do git pull -q --rebase origin base && git push -q origin HEAD:base && exit 0; sleep 15; done
+          exit 1
