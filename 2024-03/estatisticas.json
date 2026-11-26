@@ -1,0 +1,21 @@
+{
+ "mes": "2024-03",
+ "licitacoes_no_mes": 24493,
+ "completo": true,
+ "tipos": {
+  "ata": 1940,
+  "retificacao": 493,
+  "decisao": 271,
+  "esclarecimento": 192,
+  "recurso": 219,
+  "impugnacao": 171,
+  "julgamento": 435
+ },
+ "verificadas": 24493,
+ "com_documentos": 2890,
+ "casos": 1136,
+ "participacoes": 18774,
+ "documentos": 912,
+ "minutos": 280.9,
+ "falhas_listagem": 0
+}
