@@ -1,21 +1,21 @@
 {
  "mes": "2026-08",
- "licitacoes_no_mes": 11951,
- "completo": false,
+ "licitacoes_no_mes": 40264,
+ "completo": true,
  "tipos": {
-  "retificacao": 612,
-  "ata": 786,
-  "julgamento": 392,
-  "esclarecimento": 265,
-  "decisao": 246,
-  "recurso": 178,
-  "impugnacao": 277
+  "retificacao": 2116,
+  "decisao": 856,
+  "ata": 2549,
+  "julgamento": 1170,
+  "recurso": 702,
+  "esclarecimento": 827,
+  "impugnacao": 760
  },
- "verificadas": 11951,
- "com_documentos": 2092,
- "casos": 1051,
- "participacoes": 6581,
- "documentos": 1257,
- "minutos": 77.3,
- "falhas_listagem": 83
+ "verificadas": 40264,
+ "com_documentos": 6830,
+ "casos": 2859,
+ "participacoes": 20737,
+ "documentos": 4065,
+ "minutos": 243.2,
+ "falhas_listagem": 0
 }
