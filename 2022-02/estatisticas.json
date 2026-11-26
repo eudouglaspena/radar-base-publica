@@ -1,0 +1,15 @@
+{
+ "mes": "2022-02",
+ "licitacoes_no_mes": 135,
+ "completo": true,
+ "tipos": {
+  "ata": 3
+ },
+ "verificadas": 135,
+ "com_documentos": 3,
+ "casos": 0,
+ "participacoes": 67,
+ "documentos": 0,
+ "minutos": 3.9,
+ "falhas_listagem": 0
+}
