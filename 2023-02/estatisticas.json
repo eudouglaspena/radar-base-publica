@@ -1,0 +1,19 @@
+{
+ "mes": "2023-02",
+ "licitacoes_no_mes": 734,
+ "completo": false,
+ "tipos": {
+  "ata": 79,
+  "retificacao": 10,
+  "impugnacao": 2,
+  "esclarecimento": 5,
+  "decisao": 15
+ },
+ "verificadas": 734,
+ "com_documentos": 96,
+ "casos": 1,
+ "participacoes": 359,
+ "documentos": 10,
+ "minutos": 8.4,
+ "falhas_listagem": 3
+}
