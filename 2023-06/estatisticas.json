@@ -1,0 +1,21 @@
+{
+ "mes": "2023-06",
+ "licitacoes_no_mes": 5215,
+ "completo": true,
+ "tipos": {
+  "retificacao": 81,
+  "ata": 318,
+  "decisao": 70,
+  "julgamento": 64,
+  "impugnacao": 26,
+  "recurso": 37,
+  "esclarecimento": 21
+ },
+ "verificadas": 5215,
+ "com_documentos": 483,
+ "casos": 185,
+ "participacoes": 2650,
+ "documentos": 127,
+ "minutos": 15.7,
+ "falhas_listagem": 0
+}
