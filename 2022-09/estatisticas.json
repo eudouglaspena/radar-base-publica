@@ -1,0 +1,19 @@
+{
+ "mes": "2022-09",
+ "licitacoes_no_mes": 271,
+ "completo": true,
+ "tipos": {
+  "retificacao": 4,
+  "ata": 17,
+  "impugnacao": 1,
+  "julgamento": 1,
+  "recurso": 1
+ },
+ "verificadas": 271,
+ "com_documentos": 23,
+ "casos": 30,
+ "participacoes": 86,
+ "documentos": 3,
+ "minutos": 2.8,
+ "falhas_listagem": 0
+}
