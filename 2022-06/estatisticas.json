@@ -1,0 +1,16 @@
+{
+ "mes": "2022-06",
+ "licitacoes_no_mes": 735,
+ "completo": true,
+ "tipos": {
+  "ata": 9,
+  "retificacao": 1
+ },
+ "verificadas": 735,
+ "com_documentos": 10,
+ "casos": 1,
+ "participacoes": 40,
+ "documentos": 0,
+ "minutos": 4.4,
+ "falhas_listagem": 0
+}
