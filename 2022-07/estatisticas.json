@@ -1,21 +1,21 @@
 {
  "mes": "2022-07",
- "licitacoes_no_mes": 6554,
+ "licitacoes_no_mes": 8222,
  "completo": false,
  "tipos": {
-  "retificacao": 173,
-  "ata": 15,
+  "retificacao": 221,
+  "ata": 18,
   "recurso": 6,
   "decisao": 65,
   "julgamento": 1,
   "esclarecimento": 1,
   "impugnacao": 2
  },
- "verificadas": 6554,
- "com_documentos": 262,
+ "verificadas": 8469,
+ "com_documentos": 313,
  "casos": 8,
- "participacoes": 99,
+ "participacoes": 111,
  "documentos": 7,
- "minutos": 20.3,
- "falhas_listagem": 12
+ "minutos": 48.6,
+ "falhas_listagem": 2
 }
