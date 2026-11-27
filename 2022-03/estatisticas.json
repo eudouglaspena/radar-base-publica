@@ -1,6 +1,6 @@
 {
  "mes": "2022-03",
- "licitacoes_no_mes": 94,
+ "licitacoes_no_mes": 90,
  "completo": false,
  "tipos": {
   "ata": 12
@@ -10,6 +10,6 @@
  "casos": 1,
  "participacoes": 107,
  "documentos": 0,
- "minutos": 4.4,
- "falhas_listagem": 2
+ "minutos": 16.1,
+ "falhas_listagem": 1
 }
