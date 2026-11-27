@@ -1,7 +1,7 @@
 {
  "mes": "2023-07",
- "licitacoes_no_mes": 5756,
- "completo": false,
+ "licitacoes_no_mes": 5757,
+ "completo": true,
  "tipos": {
   "retificacao": 102,
   "ata": 350,
@@ -11,11 +11,11 @@
   "julgamento": 87,
   "recurso": 36
  },
- "verificadas": 5756,
+ "verificadas": 5757,
  "com_documentos": 555,
  "casos": 174,
  "participacoes": 2850,
  "documentos": 183,
- "minutos": 20.7,
- "falhas_listagem": 4
+ "minutos": 38.099999999999994,
+ "falhas_listagem": 0
 }
