@@ -1,13 +1,21 @@
 {
  "mes": "2023-10",
- "licitacoes_no_mes": 0,
+ "licitacoes_no_mes": 8311,
  "completo": false,
- "tipos": {},
- "verificadas": 0,
- "com_documentos": 0,
- "casos": 0,
- "participacoes": 0,
- "documentos": 0,
- "minutos": 40.6,
- "falhas_listagem": 124
+ "tipos": {
+  "retificacao": 141,
+  "ata": 465,
+  "esclarecimento": 81,
+  "julgamento": 138,
+  "decisao": 102,
+  "recurso": 53,
+  "impugnacao": 48
+ },
+ "verificadas": 8311,
+ "com_documentos": 762,
+ "casos": 147,
+ "participacoes": 3656,
+ "documentos": 283,
+ "minutos": 74.0,
+ "falhas_listagem": 1
 }
