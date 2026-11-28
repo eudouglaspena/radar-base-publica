@@ -1,0 +1,13 @@
+name: Diagnóstico de API
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "URL a testar"
+        required: true
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -sS -m 120 -w '\nHTTP %{http_code}\n' "${{ github.event.inputs.url }}" | head -c 6000
