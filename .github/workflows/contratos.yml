@@ -1,0 +1,84 @@
+name: Contratos (quem ganhou e por quanto)
+on:
+  workflow_dispatch:
+    inputs:
+      inicio:
+        description: "Primeiro mês (AAAA-MM). Vazio = os 2 últimos meses"
+        default: ""
+      fim:
+        description: "Último mês (AAAA-MM). Vazio = mês atual"
+        default: ""
+      paralelo:
+        description: "Meses ao mesmo tempo"
+        default: "6"
+      so_resumo:
+        description: "Só refazer o resumo (sem listar meses)"
+        default: "nao"
+  schedule:
+    - cron: "43 6 * * 1"   # toda segunda, antes do resumo de mercado
+concurrency: contratos
+permissions:
+  contents: write
+jobs:
+  plano:
+    runs-on: ubuntu-latest
+    outputs:
+      meses: ${{ steps.m.outputs.meses }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: m
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, datetime as dt
+          hoje = dt.date.today()
+          ini_padrao = (hoje.replace(day=1) - dt.timedelta(days=1)).strftime("%Y-%m")
+          a = "${{ github.event.inputs.inicio }}" or ini_padrao
+          b = "${{ github.event.inputs.fim }}" or hoje.strftime("%Y-%m")
+          if "${{ github.event.inputs.so_resumo }}" == "sim":
+              print("meses=[]"); raise SystemExit
+          y, m = map(int, a.split("-")); out = []
+          while f"{y:04d}-{m:02d}" <= b:
+              out.append(f"{y:04d}-{m:02d}"); m += 1
+              if m > 12: y, m = y + 1, 1
+          out.reverse()
+          print("meses=" + json.dumps(out))
+          PY
+      - name: Criar o ramo mercado, se não existir
+        run: |
+          if ! git ls-remote --exit-code --heads origin mercado >/dev/null; then
+            mkdir /tmp/b && cd /tmp/b && git init -q && git config user.name radar-bot && git config user.email radar-bot@users.noreply.github.com
+            git checkout -q -b mercado && mkdir meses && echo "Base de mercado do Radar: meses/AAAA-MM.jsonl.gz e mercado.json (resumo)." > LEIA-ME.txt && git add . && git commit -qm "início"
+            git push "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" mercado
+          fi
+  mes:
+    needs: plano
+    if: needs.plano.outputs.meses != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ fromJSON(github.event.inputs.paralelo || '4') }}
+      matrix:
+        mes: ${{ fromJSON(needs.plano.outputs.meses) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preparar
+        run: |
+          python3 -m pip install -q --break-system-packages pypdf || python3 -m pip install -q pypdf
+          git clone -q --depth 1 --branch mercado "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" /tmp/mercado
+          mkdir -p /tmp/mercado/meses
+          ATUAL=$(date -u +%Y-%m); ANT=$(date -u -d "$(date -u +%Y-%m-01) -1 day" +%Y-%m)
+          F="/tmp/mercado/meses/contratos-${{ matrix.mes }}.json"
+          # meses fechados e completos não precisam ser refeitos; o atual e o anterior sempre são
+          if [ -f "$F" ] && grep -q '"completo": true' "$F" && [ "${{ matrix.mes }}" != "$ATUAL" ] && [ "${{ matrix.mes }}" != "$ANT" ]; then echo "PULAR=1" >> $GITHUB_ENV; fi
+      - name: Listar os contratos do mês
+        if: env.PULAR != '1'
+        run: PYTHONUNBUFFERED=1 python3 coletor/contratos.py --mes ${{ matrix.mes }} --saida /tmp/mercado/meses
+      - name: Salvar no ramo mercado
+        if: env.PULAR != '1'
+        run: |
+          cd /tmp/mercado
+          git config user.name radar-bot; git config user.email radar-bot@users.noreply.github.com
+          git add meses && git commit -qm "contratos ${{ matrix.mes }}" || exit 0
+          for i in 1 2 3 4 5 6 7 8; do git pull -q --rebase origin mercado && git push -q origin HEAD:mercado && exit 0; sleep $((RANDOM % 20 + 5)); done
+          exit 1

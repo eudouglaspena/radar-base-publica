@@ -97,11 +97,11 @@ jobs:
       - name: Montar o resumo
         run: |
           python3 -m pip install -q --break-system-packages pypdf || python3 -m pip install -q pypdf
-          python3 coletor/mercado_cubo.py --mercado /tmp/mercado/meses --base /tmp/base --saida /tmp/mercado/mercado.json
+          python3 coletor/mercado_cubo.py --mercado /tmp/mercado/meses --base /tmp/base --saida /tmp/mercado/mercado.json --forn /tmp/mercado/forn
       - name: Salvar
         run: |
           cd /tmp/mercado
           git config user.name radar-bot; git config user.email radar-bot@users.noreply.github.com
-          git add mercado.json && git commit -qm "resumo de mercado $(date -u +%F)" || exit 0
+          git add -A mercado.json forn && git commit -qm "resumo de mercado $(date -u +%F)" || exit 0
           for i in 1 2 3 4 5; do git pull -q --rebase origin mercado && git push -q origin HEAD:mercado && exit 0; sleep 7; done
           exit 1
