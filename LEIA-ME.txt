@@ -1,0 +1,1 @@
+Base de mercado do Radar: meses/AAAA-MM.jsonl.gz e mercado.json (resumo).
