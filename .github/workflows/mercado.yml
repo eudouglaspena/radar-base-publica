@@ -64,6 +64,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Preparar
         run: |
+          python3 -m pip install -q --break-system-packages pypdf || python3 -m pip install -q pypdf
           git clone -q --depth 1 --branch mercado "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" /tmp/mercado
           mkdir -p /tmp/mercado/meses
           ATUAL=$(date -u +%Y-%m); ANT=$(date -u -d "$(date -u +%Y-%m-01) -1 day" +%Y-%m)
@@ -94,7 +95,9 @@ jobs:
           git clone -q --depth 1 --filter=blob:none --sparse --branch base "https://github.com/${{ github.repository }}" /tmp/base
           cd /tmp/base && git sparse-checkout set --no-cone '/*/participantes.jsonl' '/*/casos.jsonl' && ls | head
       - name: Montar o resumo
-        run: python3 coletor/mercado_cubo.py --mercado /tmp/mercado/meses --base /tmp/base --saida /tmp/mercado/mercado.json
+        run: |
+          python3 -m pip install -q --break-system-packages pypdf || python3 -m pip install -q pypdf
+          python3 coletor/mercado_cubo.py --mercado /tmp/mercado/meses --base /tmp/base --saida /tmp/mercado/mercado.json
       - name: Salvar
         run: |
           cd /tmp/mercado
