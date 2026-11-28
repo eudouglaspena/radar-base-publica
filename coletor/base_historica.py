@@ -106,7 +106,7 @@ def listar_mes(mes):
                             "uf": uo.get("ufSigla"), "mun": uo.get("municipioNome"), "mod": c.get("modalidadeNome"),
                             "obj": " ".join((c.get("objetoCompra") or "").split())[:300], "org": oe.get("razaoSocial"),
                             "enc": c.get("dataEncerramentoProposta"), "vest": c.get("valorTotalEstimado"), "vhom": c.get("valorTotalHomologado"),
-                            "sit": c.get("situacaoCompraNome")})
+                            "sit": c.get("situacaoCompraNome"), "pub": (c.get("dataPublicacaoPncp") or "")[:10], "srp": c.get("srp")})
             if not j.get("data") or pag >= (j.get("totalPaginas") or 1):
                 return out
             pag += 1
